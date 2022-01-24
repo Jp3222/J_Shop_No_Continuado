@@ -24,20 +24,37 @@ public class Operaciones {
 
     public boolean Inserccion(Objeto o) {
         try {
-            if (cn.isConexion()) {
-                cn.insert(o.getTabla(), cn.getDatos(o.getInformacion()));
+            if (o != null) {
+                String[] campos = null;
+                switch (o.getTabla()) {
+                    case "productos" -> {
+                        campos = cons.PRODUCTOS;
+                    }
+                    case "empleados" -> {
+                        campos = cons.EMPLEADOS;
+                    }
+                    case "proveedores" -> {
+                        campos = cons.PROVEEDORES;
+                    }
+                    case "movimientos" -> {
+                        campos = cons.MOVIMIENTOS;
+                    }
+                }
+                cn.insert(o.getTabla(),
+                        cn.getColumnas(func.exp(campos, 0)),
+                        cn.getDatos(o.getInformacion())
+                );
                 return true;
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return false;
     }
 
     public boolean Eliminacion(Objeto o) {
         try {
-            if (cn.isConexion()) {
+            if (o != null) {
                 cn.DELETE(o.getTabla(), "id = " + o.getId());
             }
         } catch (SQLException e) {
@@ -48,7 +65,7 @@ public class Operaciones {
 
     public boolean Actualizacion(Objeto o, String[] campo, String[] datos) {
         try {
-            if (cn.isConexion()) {
+            if (o != null) {
                 cn.update(
                         o.getTabla(),
                         cn.getCampos_Columas(campo, datos),

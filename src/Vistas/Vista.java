@@ -2,10 +2,12 @@ package Vistas;
 
 import javax.swing.JFrame;
 
-public class Vista extends JFrame {
-    
-    
-    
-    private String nom;
-    
+public abstract class Vista extends JFrame {
+
+    String nom;
+
+    public static <T> T referencia(){
+        return null;
+    }
+
 }

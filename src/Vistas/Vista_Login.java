@@ -34,7 +34,7 @@ public class Vista_Login extends javax.swing.JFrame {
     private void Propiedades() {
         //Labels
         jtfUsuario.setForeground(Color.gray);
-        String txt = "   Estado: ";
+        String txt = "                  Estado: ";
         txt += Conexion.getNodo().isConexion() ? "Conectado":"No Conectado";
         jlbEstado.setText(txt);
         //JButons
@@ -65,6 +65,7 @@ public class Vista_Login extends javax.swing.JFrame {
         setResizable(false);
 
         root.setBackground(new java.awt.Color(185, 185, 185));
+        root.setPreferredSize(new java.awt.Dimension(400, 600));
         root.setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

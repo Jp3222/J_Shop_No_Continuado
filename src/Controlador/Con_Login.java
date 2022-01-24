@@ -1,12 +1,9 @@
 package Controlador;
 
 import Modelo.Operaciones;
-import Modelo.Objetos.Empleado;
-import Modelo.cons;
 import java.awt.event.ActionEvent;
 import Vistas.Vista_Login;
 import Vistas.Vista_Menu;
-import com.jsql.conexion.Tablas;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,7 +46,6 @@ public class Con_Login extends Controlador {
                     login.correcto();
                     login.Clear();
                     login.setClick();
-
                 } else {
                     login.incorrecto();
                 }

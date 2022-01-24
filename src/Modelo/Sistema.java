@@ -3,8 +3,6 @@ package Modelo;
 import Vistas.Vista_Login;
 import com.jsql.conexion.Conexion;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.TimerTask;
 
 /**
@@ -24,18 +22,22 @@ public class Sistema {
     private Calendar cl;
     private Tareas t;
     private Vista_Login login;
+    private Cache cache;
+
     private Sistema() {
         constructor();
     }
 
     private void constructor() {
         cn = Conexion.getNodo("root", "12345", Conexion.getLOCAL_URL("jshop"));
-        cn.conectar();
         op = Operaciones.getNodo();
-        login =  new Vista_Login();
+        login = new Vista_Login();
+        cache = Cache.getNodo();
     }
 
     public void run() {
+        cn.conectar();
+        cache.initProveedores();
         login.setVisible(true);
     }
 
