@@ -4,6 +4,7 @@ import Controlador.Con_Productos;
 import Controlador.Puentes;
 import Modelo.Objetos.Producto;
 import Modelo.func;
+import Modelo.Cache;
 import com.jsql.conexion.Conexion;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import Controlador.Con_Productos.Con_Insercion;
+import Modelo.Objetos;
 
 /**
  *
@@ -76,14 +78,9 @@ public class Vista_Productos extends Vista {
 
         private void init() {
             reinicio();
-            try {
-                ResultSet select = cn.select("proveedores", "*");
-                while (select.next()) {
-                    jcbMarca.addItem(select.getString("marca"));
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-                JOptionPane.showMessageDialog(null, "Lista de marcas no cargada");
+            Cache c = Cache.getNodo();
+            for (Objetos.Proveedores obj : c.getProveedores()) {
+                jcbMarca.addItem(obj.getMarca());
             }
         }
 
@@ -95,7 +92,7 @@ public class Vista_Productos extends Vista {
         public String[] getO() {
             try {
                 String[] info = new String[8];
-                ResultSet select = Conexion.getNodo().select(o.getTabla(), "id", "nombre = '" + jcbMarca.getSelectedItem() + "'");
+                ResultSet select = Conexion.getNodo().select("proveedores", "id", "nombre = '" + jcbMarca.getSelectedItem() + "'");
                 int key = select.getInt("id");
                 info[0] = "" + 0;
                 info[2] = jtfNombre.getText();
@@ -123,7 +120,7 @@ public class Vista_Productos extends Vista {
     public class Actualizacion {
 
         public void init() {
-            jTable2.setEditingColumn(0);
+            
         }
 
     }
@@ -175,11 +172,11 @@ public class Vista_Productos extends Vista {
         jbtAtras5 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jbtAtras7 = new javax.swing.JButton();
         jbtAtras8 = new javax.swing.JButton();
         jbtAtras9 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
 
@@ -279,11 +276,6 @@ public class Vista_Productos extends Vista {
         jbtGuardad.setActionCommand("b1");
         jbtGuardad.setFocusPainted(false);
         jbtGuardad.setPreferredSize(new java.awt.Dimension(100, 40));
-        jbtGuardad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtGuardadActionPerformed(evt);
-            }
-        });
 
         Fotos.setBorder(null);
         Fotos.setForeground(new java.awt.Color(198, 183, 216));
@@ -591,48 +583,12 @@ public class Vista_Productos extends Vista {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Consultar Producto", jPanel5);
+        jTabbedPane1.addTab("Consultar Productos", jPanel5);
 
         jPanel6.setBackground(new java.awt.Color(132, 132, 132));
 
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(1, 1, 1))); // NOI18N
         jPanel11.setOpaque(false);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Clave", "Nombre", "Marca", "Precio"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable2.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jTable2AncestorAdded(evt);
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
 
         jbtAtras7.setBackground(new java.awt.Color(255, 22, 0));
         jbtAtras7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -642,11 +598,6 @@ public class Vista_Productos extends Vista {
         jbtAtras7.setActionCommand("xd");
         jbtAtras7.setFocusPainted(false);
         jbtAtras7.setPreferredSize(new java.awt.Dimension(100, 40));
-        jbtAtras7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtAtras7ActionPerformed(evt);
-            }
-        });
 
         jbtAtras8.setBackground(new java.awt.Color(255, 22, 0));
         jbtAtras8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -666,6 +617,37 @@ public class Vista_Productos extends Vista {
         jbtAtras9.setFocusPainted(false);
         jbtAtras9.setPreferredSize(new java.awt.Dimension(100, 40));
 
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Clave", "ID", "Nombre", "Contenido", "Productos"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(4).setMinWidth(100);
+            jTable3.getColumnModel().getColumn(4).setMaxWidth(10);
+        }
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -673,14 +655,14 @@ public class Vista_Productos extends Vista {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jbtAtras7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbtAtras8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbtAtras9, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -689,9 +671,9 @@ public class Vista_Productos extends Vista {
                     .addComponent(jbtAtras7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtAtras8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtAtras9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -782,21 +764,6 @@ public class Vista_Productos extends Vista {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtAtras7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAtras7ActionPerformed
-
-
-    }//GEN-LAST:event_jbtAtras7ActionPerformed
-
-    private void jTable2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTable2AncestorAdded
-        evt.getAncestor().setEnabled(true);
-    }//GEN-LAST:event_jTable2AncestorAdded
-
-    private void jbtGuardadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtGuardadActionPerformed
-
-        System.out.println("marca:" + jcbMarca.getSelectedIndex());
-
-    }//GEN-LAST:event_jbtGuardadActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fotos;
     private javax.swing.JCheckBox jCheckBox1;
@@ -823,10 +790,10 @@ public class Vista_Productos extends Vista {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JButton jbtAtras;

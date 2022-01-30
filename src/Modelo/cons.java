@@ -58,7 +58,7 @@ public class cons {
 
     public static final String[] PROVEEDORES = {
         "id",
-        "nombre",
+        "marca",
         "no_prod"
     };
     //

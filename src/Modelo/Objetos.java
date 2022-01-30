@@ -89,6 +89,13 @@ public class Objetos {
             return Arrays.deepEquals(this.Informacion, other.Informacion);
         }
 
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            return super.clone(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        }
+        
+        
+
     }
 
     public static class Producto extends Objeto {
@@ -223,6 +230,11 @@ public class Objetos {
         @Override
         public String toString() {
             return "Producto{" + "clave=" + clave + ", nombre=" + nombre + ", marca=" + marca + ", udm=" + udm + ", img=" + img + ", contenido=" + contenido + ", precio=" + precio + '}';
+        }
+
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            return super.clone();
         }
 
     }
