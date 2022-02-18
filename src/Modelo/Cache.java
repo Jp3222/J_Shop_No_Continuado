@@ -15,23 +15,23 @@ import java.util.logging.Logger;
  * @author jp
  */
 public class Cache {
-    
+
     private static final Cache Nodo = new Cache();
-    
+
     public static Cache getNodo() {
         return Nodo;
     }
-    
+
     private final ArrayList<Proveedores> proveedores;
     private final ArrayList<Producto> productos;
     private final Conexion cn;
-    
+
     private Cache() {
         this.proveedores = new ArrayList<>();
         this.productos = new ArrayList<>();
         this.cn = Conexion.getNodo();
     }
-    
+
     public void initProveedores() {
         try {
             ResultSet select = cn.select("proveedores", "*");
@@ -53,20 +53,22 @@ public class Cache {
         } catch (SQLException ex) {
             Logger.getLogger(Cache.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     public void initProductos() {
-        
+
     }
-    
+
     @SuppressWarnings("null")
     private void init(String Tabla, String[] campos, ArrayList<Objeto> lista) {
         try {
             Objeto o = null;
             switch (Tabla) {
-                case "productos" -> o = new Producto(Tabla);
-                case "proveedores" -> o = new Proveedores(Tabla);
+                case "productos" ->
+                    o = new Producto(Tabla);
+                case "proveedores" ->
+                    o = new Proveedores(Tabla);
             }
             int size = campos.length, i;
             ResultSet rs = cn.select(Tabla, "*");
@@ -77,16 +79,12 @@ public class Cache {
                     objeto[i] = rs.getString(campo);
                     i++;
                 }
-                
                 o.setExist(true);
-                
                 o.setInformacion(objeto);
-                
                 o.init();
-                
-                lista.add((Objeto) o.clone());
+                lista.add(o);
             }
-        } catch (CloneNotSupportedException | SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -98,7 +96,5 @@ public class Cache {
     public ArrayList<Proveedores> getProveedores() {
         return proveedores;
     }
-    
-    
-    
+
 }

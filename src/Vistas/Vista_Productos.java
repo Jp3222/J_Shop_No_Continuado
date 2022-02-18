@@ -3,24 +3,23 @@ package Vistas;
 import Controlador.Con_Productos;
 import Controlador.Puentes;
 import Modelo.Objetos.Producto;
-import Modelo.func;
-import Modelo.Cache;
 import com.jsql.conexion.Conexion;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import Controlador.Con_Productos.Con_Insercion;
+import Modelo.cons;
+import com.org.JFiles.Vistas.ChooserFiles;
+import com.org.JFiles.Archivos.Archivos_BYTES;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import Controlador.Con_Productos.Con_Insercion;
-import Modelo.Objetos;
 
 /**
  *
@@ -29,8 +28,8 @@ import Modelo.Objetos;
 public class Vista_Productos extends Vista {
 
     private final Con_Productos controlador;
-    private final Conexion cn = Conexion.getNodo();
     private final Insercciones insercciones;
+    private final Conexion cn = Conexion.getNodo();
 
     /**
      * Creates new form Productos
@@ -50,10 +49,7 @@ public class Vista_Productos extends Vista {
     private void init() {
         //etiquetas
         //panels
-        final Visor v = new Visor();
-        v.setPreferredSize(new Dimension(Fotos.getWidth(), Fotos.getHeight()));
-        Fotos.setLayout(new BorderLayout());
-        Fotos.add(v, BorderLayout.CENTER);
+
         //botones
         jbtAtras.addActionListener(controlador);
         //
@@ -77,10 +73,14 @@ public class Vista_Productos extends Vista {
         }
 
         private void init() {
-            reinicio();
-            Cache c = Cache.getNodo();
-            for (Objetos.Proveedores obj : c.getProveedores()) {
-                jcbMarca.addItem(obj.getMarca());
+            try {
+                reinicio();
+                ResultSet select = cn.select("proveedores", "marca");
+                while (select.next()) {
+                    jcbMarca.addItem(select.getString("marca"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Vista_Productos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -89,28 +89,34 @@ public class Vista_Productos extends Vista {
             jcbMarca.addItem("- - Marcas - -");
         }
 
-        public String[] getO() {
-            try {
-                String[] info = new String[8];
-                ResultSet select = Conexion.getNodo().select("proveedores", "id", "nombre = '" + jcbMarca.getSelectedItem() + "'");
-                int key = select.getInt("id");
-                info[0] = "" + 0;
-                info[2] = jtfNombre.getText();
-                info[3] = ((String) jcbMarca.getSelectedItem());
-                info[4] = "" + Double.parseDouble(jtfCont.getText());
-                info[5] = ((String) jcbUdm.getSelectedItem());
-                info[6] = "" + Double.parseDouble(jtfPrecio.getText());
-                info[7] = f.getAbsolutePath();
-                info[1] = func.key(key, o.getNombre(), "" + o.getContenido(), o.getUdm());
-                return info;
-            } catch (SQLException ex) {
-                Logger.getLogger(Vista_Productos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
+        public Producto getProducto() {
+            final Producto producto = new Producto("Producto");
+            String info[] = new String[8];
+            info[0] = "" + 0;
+            info[1] = "";
+            info[2] = jtfNombre.getText();
+            info[3] = jcbMarca.getItemAt(jcbMarca.getSelectedIndex());
+            info[4] = jtfCont.getText();
+            info[5] = jcbUdm.getItemAt(jcbUdm.getSelectedIndex());
+            info[6] = jtfPrecio.getText();
+            info[7] = f.getAbsolutePath();
+            producto.setInformacion(info);
+            producto.init();
+            return producto;
         }
 
         public void action(ActionEvent e) {
-            System.out.println("x");
+            Thread t = new Thread(() -> {
+                try {
+                    f = ChooserFiles.ChooserFile("", "aceptar");
+                    Thread.currentThread().join();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Vista_Productos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            t.start();
+            
+            System.out.println(f.getPath());
         }
     }
 
@@ -120,7 +126,7 @@ public class Vista_Productos extends Vista {
     public class Actualizacion {
 
         public void init() {
-            
+
         }
 
     }
@@ -817,10 +823,16 @@ public class Vista_Productos extends Vista {
 
 class Visor extends JPanel {
 
+    private final String url;
+
+    public Visor(String url) {
+        this.url = url;
+    }
+
     @Override
     public void paint(Graphics g2) {
         Graphics2D g = (Graphics2D) g2;
-        ImageIcon image = new ImageIcon(getClass().getResource("/Icons/vive.jpg"));
+        ImageIcon image = new ImageIcon(url);
         //g.scale(-0.1, -0.1);
         g.drawImage(image.getImage(), 0, 0, 338, 469, this);
     }

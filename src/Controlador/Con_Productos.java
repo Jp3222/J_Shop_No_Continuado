@@ -40,8 +40,8 @@ public class Con_Productos extends Controlador {
 
     public static class Con_Insercion extends Controlador {
 
-        private Insercciones menu;
-        private Operaciones op = Operaciones.getNodo();
+        private final Insercciones menu;
+        private final Operaciones op = Operaciones.getNodo();
 
         public Con_Insercion(Insercciones menu) {
             this.menu = menu;
@@ -56,13 +56,16 @@ public class Con_Productos extends Controlador {
         }
 
         public void Insertar() {
-            if (menu.getO() != null) {
-                Producto o = new Producto("productos");
-                o.setInformacion(menu.getO());
-                o.init();
-                op.Inserccion(o);
-            }else{
-                JOptionPane.showMessageDialog(null, "Error Al insertar el producto");
+            Producto p = menu.getProducto();
+            if (p == null || !p.isExist()) {
+                JOptionPane.showMessageDialog(null, "Producto null");
+                return;
+            }
+            
+            if (op.Inserccion(p)) {
+                JOptionPane.showMessageDialog(null, "Inserccion correcta");
+            } else {
+                JOptionPane.showMessageDialog(null, "Inserccion erronea");
             }
         }
     }

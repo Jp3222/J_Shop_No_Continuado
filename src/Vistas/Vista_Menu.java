@@ -3,6 +3,9 @@ package Vistas;
 import Controlador.Con_Menu;
 import Controlador.Con_Menu.Con_Caja;
 import java.awt.Color;
+import javax.swing.DefaultCellEditor;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -75,6 +78,8 @@ public class Vista_Menu extends Vista {
         jLabel7 = new javax.swing.JLabel();
         jtfCambio = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtVisitas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("J - Shop");
@@ -384,15 +389,46 @@ public class Vista_Menu extends Vista {
 
         jPanel4.setBackground(new java.awt.Color(132, 132, 132));
 
+        jtVisitas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jtVisitas);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Visitas", new javax.swing.ImageIcon(getClass().getResource("/Icons/la-proxima-semana.png")), jPanel4); // NOI18N
@@ -464,6 +500,25 @@ public class Vista_Menu extends Vista {
 
     }
 
+    public class Visitas {
+
+        private DefaultTableModel modelo;
+
+        public Visitas() {
+            modelo = (DefaultTableModel) jtVisitas.getModel();
+        }
+
+        public DefaultTableModel getModelo() {
+            return modelo;
+        }
+
+        public void setModelo(DefaultTableModel modelo) {
+            this.modelo = modelo;
+            jtVisitas.setModel(modelo);
+        }
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -478,6 +533,7 @@ public class Vista_Menu extends Vista {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbtAdministracion;
     private javax.swing.JButton jbtAgregar;
@@ -489,6 +545,7 @@ public class Vista_Menu extends Vista {
     private javax.swing.JButton jbtQuitar;
     private javax.swing.JButton jbtSalir;
     private javax.swing.JSpinner jspPiezas;
+    private javax.swing.JTable jtVisitas;
     private javax.swing.JTable jtbCarrito;
     private javax.swing.JTextField jtfBuscar;
     private javax.swing.JTextField jtfCambio;

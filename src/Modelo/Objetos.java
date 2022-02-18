@@ -12,7 +12,7 @@ public class Objetos {
     public static abstract class Objeto {
 
         private int Id;
-        private String Tabla;
+        private final String Tabla;
         private String[] Informacion;
         private boolean Exist;
 
@@ -31,10 +31,6 @@ public class Objetos {
 
         public String getTabla() {
             return Tabla;
-        }
-
-        public void setTabla(String Tabla) {
-            this.Tabla = Tabla;
         }
 
         public String[] getInformacion() {
@@ -89,27 +85,14 @@ public class Objetos {
             return Arrays.deepEquals(this.Informacion, other.Informacion);
         }
 
-        @Override
-        protected Object clone() throws CloneNotSupportedException {
-            return super.clone(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-        }
-        
-        
-
     }
 
     public static class Producto extends Objeto {
 
-        private String clave,
-                nombre,
-                marca,
-                udm,
-                img;
-        private double contenido, precio;
+        private String clave, nombre, marca, contenido, udm, precio, img;
 
         public Producto(String Tabla) {
             super(Tabla);
-
         }
 
         public String getClave() {
@@ -136,12 +119,28 @@ public class Objetos {
             this.marca = marca;
         }
 
+        public String getContenido() {
+            return contenido;
+        }
+
+        public void setContenido(String contenido) {
+            this.contenido = contenido;
+        }
+
         public String getUdm() {
             return udm;
         }
 
         public void setUdm(String udm) {
             this.udm = udm;
+        }
+
+        public String getPrecio() {
+            return precio;
+        }
+
+        public void setPrecio(String precio) {
+            this.precio = precio;
         }
 
         public String getImg() {
@@ -152,89 +151,17 @@ public class Objetos {
             this.img = img;
         }
 
-        public double getContenido() {
-            return contenido;
-        }
-
-        public void setContenido(double contenido) {
-            this.contenido = contenido;
-        }
-
-        public double getPrecio() {
-            return precio;
-        }
-
-        public void setPrecio(double precio) {
-            this.precio = precio;
-        }
-
-        @Override
-        public int hashCode() {
-            int hash = 5;
-            hash = 13 * hash + Objects.hashCode(this.clave);
-            hash = 13 * hash + Objects.hashCode(this.nombre);
-            hash = 13 * hash + Objects.hashCode(this.marca);
-            hash = 13 * hash + Objects.hashCode(this.udm);
-            hash = 13 * hash + Objects.hashCode(this.img);
-            hash = 13 * hash + (int) (Double.doubleToLongBits(this.contenido) ^ (Double.doubleToLongBits(this.contenido) >>> 32));
-            hash = 13 * hash + (int) (Double.doubleToLongBits(this.precio) ^ (Double.doubleToLongBits(this.precio) >>> 32));
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final Producto other = (Producto) obj;
-            if (Double.doubleToLongBits(this.contenido) != Double.doubleToLongBits(other.contenido)) {
-                return false;
-            }
-            if (Double.doubleToLongBits(this.precio) != Double.doubleToLongBits(other.precio)) {
-                return false;
-            }
-            if (!Objects.equals(this.clave, other.clave)) {
-                return false;
-            }
-            if (!Objects.equals(this.nombre, other.nombre)) {
-                return false;
-            }
-            if (!Objects.equals(this.marca, other.marca)) {
-                return false;
-            }
-            if (!Objects.equals(this.udm, other.udm)) {
-                return false;
-            }
-            return Objects.equals(this.img, other.img);
-        }
-
         @Override
         public void init() {
-            String[] info = getInformacion();
+            final String[] info = getInformacion();
             this.setId(Integer.parseInt(info[0]));
             this.clave = info[1];
             this.nombre = info[2];
             this.marca = info[3];
-            this.udm = info[4];
-            this.contenido = Double.parseDouble(info[5]);
-            this.precio = Double.parseDouble(info[6]);
+            this.contenido = info[4];
+            this.udm = info[5];
+            this.precio = info[6];
             this.img = info[7];
-        }
-
-        @Override
-        public String toString() {
-            return "Producto{" + "clave=" + clave + ", nombre=" + nombre + ", marca=" + marca + ", udm=" + udm + ", img=" + img + ", contenido=" + contenido + ", precio=" + precio + '}';
-        }
-
-        @Override
-        protected Object clone() throws CloneNotSupportedException {
-            return super.clone();
         }
 
     }
