@@ -5,20 +5,25 @@ import java.util.Objects;
 
 /**
  *
- * @author jp
+ * @author juan pablo
  */
 public class Objetos {
 
+    /**
+     * @author juan pablo Clase padre que hereda a todas las clases: poducto
+     * empleado proveedores
+     *
+     */
     public static abstract class Objeto {
 
-        private int Id;
-        private final String Tabla;
-        private String[] Informacion;
-        private boolean Exist;
+        /*variables del objeto*/
+        protected int Id;
+        protected boolean existe;
+        protected String[] datos;
 
-        public Objeto(String Tabla) {
-            this.Tabla = Tabla;
-            this.Exist = false;
+        public Objeto() {
+            this.existe = false;
+            this.Id = 0;
         }
 
         public int getId() {
@@ -29,35 +34,27 @@ public class Objetos {
             this.Id = Id;
         }
 
-        public String getTabla() {
-            return Tabla;
+        public boolean Existe() {
+            return existe;
         }
 
-        public String[] getInformacion() {
-            return Informacion;
+        public void setExiste(boolean Exist) {
+            this.existe = Exist;
         }
 
-        public void setInformacion(String[] Informacion) {
-            this.Informacion = Informacion;
+        public void setDatos(String... datos) {
+            this.datos = datos;
         }
 
-        public boolean isExist() {
-            return Exist;
+        public String[] getDatos() {
+            return datos;
         }
-
-        public void setExist(boolean Exist) {
-            this.Exist = Exist;
-        }
-
-        public abstract void init();
 
         @Override
         public int hashCode() {
             int hash = 3;
             hash = 37 * hash + this.Id;
-            hash = 37 * hash + Objects.hashCode(this.Tabla);
-            hash = 37 * hash + Arrays.deepHashCode(this.Informacion);
-            hash = 37 * hash + (this.Exist ? 1 : 0);
+            hash = 37 * hash + (this.existe ? 1 : 0);
             return hash;
         }
 
@@ -76,23 +73,28 @@ public class Objetos {
             if (this.Id != other.Id) {
                 return false;
             }
-            if (this.Exist != other.Exist) {
-                return false;
-            }
-            if (!Objects.equals(this.Tabla, other.Tabla)) {
-                return false;
-            }
-            return Arrays.deepEquals(this.Informacion, other.Informacion);
+            return this.existe == other.existe;
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+            this.Id = 0;
+            this.datos = null;
+            this.existe = false;
         }
 
     }
 
+    /**
+     * @author juan pablo
+     */
     public static class Producto extends Objeto {
 
-        private String clave, nombre, marca, contenido, udm, precio, img;
+        private String clave, nombre, proveedor, contenido, udm, precio, img;
 
-        public Producto(String Tabla) {
-            super(Tabla);
+        public Producto() {
+            super();
         }
 
         public String getClave() {
@@ -111,12 +113,12 @@ public class Objetos {
             this.nombre = nombre;
         }
 
-        public String getMarca() {
-            return marca;
+        public String getProveedor() {
+            return proveedor;
         }
 
-        public void setMarca(String marca) {
-            this.marca = marca;
+        public void setProveedor(String proveedor) {
+            this.proveedor = proveedor;
         }
 
         public String getContenido() {
@@ -152,20 +154,22 @@ public class Objetos {
         }
 
         @Override
-        public void init() {
-            final String[] info = getInformacion();
-            this.setId(Integer.parseInt(info[0]));
-            this.clave = info[1];
-            this.nombre = info[2];
-            this.marca = info[3];
-            this.contenido = info[4];
-            this.udm = info[5];
-            this.precio = info[6];
-            this.img = info[7];
+        protected void finalize() throws Throwable {
+            super.finalize();
+            clave = null;
+            nombre = null;
+            proveedor = null;
+            contenido = null;
+            udm = null;
+            precio = null;
+            img = null;
         }
 
     }
 
+    /**
+     * @author juan pablo
+     */
     public static class Empleado extends Objeto {
 
         private String usuario,
@@ -174,8 +178,8 @@ public class Objetos {
                 a_paterno,
                 a_materno;
 
-        public Empleado(String Tabla) {
-            super(Tabla);
+        public Empleado() {
+            super();
         }
 
         public String getUsuario() {
@@ -216,17 +220,6 @@ public class Objetos {
 
         public void setA_materno(String a_materno) {
             this.a_materno = a_materno;
-        }
-
-        @Override
-        public void init() {
-            String info[] = getInformacion();
-            this.setId(Integer.parseInt(info[0]));
-            this.usuario = info[1];
-            this.Contraseña = info[2];
-            this.Nombre = info[3];
-            this.a_paterno = info[4];
-            this.a_materno = info[5];
         }
 
         @Override
@@ -272,15 +265,25 @@ public class Objetos {
             return "Empleado{" + "usuario=" + usuario + ", Contrase\u00f1a=" + Contraseña + ", Nombre=" + Nombre + ", a_paterno=" + a_paterno + ", a_materno=" + a_materno + '}';
         }
 
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+            usuario = null;
+            Contraseña = null;
+            Nombre = null;
+            a_paterno = null;
+            a_materno = null;
+        }
+
     }
 
+    /**
+     */
     public static class Proveedores extends Objeto {
 
         private String Marca;
-        private int No_Prod;
 
         public Proveedores(String Tabla) {
-            super(Tabla);
         }
 
         public String getMarca() {
@@ -291,27 +294,10 @@ public class Objetos {
             this.Marca = Marca;
         }
 
-        public int getNo_Prod() {
-            return No_Prod;
-        }
-
-        public void setNo_Prod(int No_Prod) {
-            this.No_Prod = No_Prod;
-        }
-
-        @Override
-        public void init() {
-            String info[] = getInformacion();
-            setId(Integer.parseInt(info[0]));
-            Marca = info[1];
-            No_Prod = Integer.parseInt(info[2]);
-        }
-
         @Override
         public int hashCode() {
             int hash = 7;
             hash = 83 * hash + Objects.hashCode(this.Marca);
-            hash = 83 * hash + this.No_Prod;
             return hash;
         }
 
@@ -327,17 +313,20 @@ public class Objetos {
                 return false;
             }
             final Proveedores other = (Proveedores) obj;
-            if (this.No_Prod != other.No_Prod) {
-                return false;
-            }
+
             return Objects.equals(this.Marca, other.Marca);
         }
 
         @Override
         public String toString() {
-            return "Proveedores{" + "Marca=" + Marca + ", No_Prod=" + No_Prod + '}';
+            return "Proveedores{" + "Marca=" + Marca + '}';
         }
 
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        
+        }
+        
     }
-
 }

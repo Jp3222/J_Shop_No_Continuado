@@ -1,7 +1,6 @@
 package j_shop;
 
 import Modelo.Sistema;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,10 +9,10 @@ import javax.swing.JOptionPane;
 public class J_Shop {
 
     public static void main(String[] args) {
-        
-        
         Sistema s = Sistema.getNodo();
-        s.run();
+        boolean run = s.run();
+        if (run) {
+            System.out.println("JShop OK!!!");
+        }
     }
-
 }

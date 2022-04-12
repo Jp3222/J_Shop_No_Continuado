@@ -1,7 +1,6 @@
 package Vistas;
 
 import Controlador.Con_Productos;
-import Controlador.Puentes;
 import Modelo.Objetos.Producto;
 import com.jsql.conexion.Conexion;
 import java.awt.Graphics;
@@ -11,15 +10,15 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import Controlador.Con_Productos.Con_Insercion;
-import Modelo.cons;
+import Modelo.Const;
+import Modelo.func;
 import com.org.JFiles.Vistas.ChooserFiles;
-import com.org.JFiles.Archivos.Archivos_BYTES;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import com.org.JFiles.Archivos.ABytes;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,9 +26,9 @@ import java.util.logging.Logger;
  */
 public class Vista_Productos extends Vista {
 
-    private final Con_Productos controlador;
+    private Con_Productos controlador;
     private final Insercciones insercciones;
-    private final Conexion cn = Conexion.getNodo();
+    private final Conexion cn = Conexion.getInstancia();
 
     /**
      * Creates new form Productos
@@ -37,22 +36,27 @@ public class Vista_Productos extends Vista {
      * @param menu
      */
     public Vista_Productos(Vista_Menu menu) {
-        controlador = new Con_Productos(this);
-        controlador.setMenu(menu);
+        super("productos");
+        //variables
+        //componentes
         initComponents();
-        init();
+        initVariables();
+        controlador.setMenu(menu);
+        //add events
+        addListerners();
         //clases internas
-        insercciones = new Insercciones();
-        Puentes.setInicio(this);
+        insercciones = new Insercciones(this);
+        //    Puentes.setInicio(this);
     }
 
-    private void init() {
-        //etiquetas
-        //panels
+    @Override
+    protected void initVariables() {
+        controlador = new Con_Productos(this);
+    }
 
-        //botones
+    @Override
+    protected void addListerners() {
         jbtAtras.addActionListener(controlador);
-        //
     }
 
     public void Actualizar_Lista() {
@@ -61,11 +65,13 @@ public class Vista_Productos extends Vista {
 
     public class Insercciones {
 
-        private Con_Insercion controlador;
-        private Producto o;
+        private final Con_Insercion controlador;
+        private final Vista_Productos VP;
+
         private File f;
 
-        public Insercciones() {
+        public Insercciones(Vista_Productos VP) {
+            this.VP = VP;
             controlador = new Con_Insercion(this);
             init();
             jbtImg.addActionListener((e) -> action(e));
@@ -75,7 +81,7 @@ public class Vista_Productos extends Vista {
         private void init() {
             try {
                 reinicio();
-                ResultSet select = cn.select("proveedores", "marca");
+                ResultSet select = cn.select("proveedores", "nombre");
                 while (select.next()) {
                     jcbMarca.addItem(select.getString("marca"));
                 }
@@ -90,33 +96,55 @@ public class Vista_Productos extends Vista {
         }
 
         public Producto getProducto() {
-            final Producto producto = new Producto("Producto");
+            final Producto producto = new Producto();
             String info[] = new String[8];
+            int id = 0;
+            try {
+                ResultSet select = Conexion.getInstancia().select("proveedores", "id", "marca = '" + jcbMarca.getItemAt(jcbMarca.getSelectedIndex()) + "'");
+                if (select.next()) {
+                    id = select.getInt("id");
+                } else {
+                    throw new SQLException();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
             info[0] = "" + 0;
-            info[1] = "";
             info[2] = jtfNombre.getText();
-            info[3] = jcbMarca.getItemAt(jcbMarca.getSelectedIndex());
+            info[3] = "" + id;
             info[4] = jtfCont.getText();
             info[5] = jcbUdm.getItemAt(jcbUdm.getSelectedIndex());
             info[6] = jtfPrecio.getText();
-            info[7] = f.getAbsolutePath();
-            producto.setInformacion(info);
-            producto.init();
+            info[1] = func.key(id, info[2], info[4], info[5]);
+            if (f != null) {
+                info[7] = f.getAbsolutePath();
+            } else {
+                info[7] = "nulo";
+            }
+            producto.setDatos(info);
             return producto;
         }
 
         public void action(ActionEvent e) {
+            VP.setEnabled(false);
             Thread t = new Thread(() -> {
-                try {
-                    f = ChooserFiles.ChooserFile("", "aceptar");
-                    Thread.currentThread().join();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Vista_Productos.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                ABytes archivos = new ABytes();
+                File ruta = new File(Const.ROOT_IMG);
+                boolean error;
+                do {
+                    error = false;
+                    f = ChooserFiles.ChooserFile("Seleccione la imagen del producto", "seleccionar");
+                    if (archivos.Validacion_Archivos(f)) {
+                        String[] info = archivos.PartirRuta(f.getPath(), true);
+                        archivos.Copiar_Archivo(f, ruta, info[info.length - 1]);
+                        VP.setEnabled(true);
+                    } else {
+                        error = true;
+                        JOptionPane.showMessageDialog(null, "Archivo no valido");
+                    }
+                } while (error);
             });
             t.start();
-            
-            System.out.println(f.getPath());
         }
     }
 

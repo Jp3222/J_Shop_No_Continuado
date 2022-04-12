@@ -7,7 +7,6 @@ import Vistas.Vista_Menu.Caja;
 import Vistas.Vista_Productos;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -29,24 +28,31 @@ public class Con_Menu extends Controlador {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "opc1" ->
+            case "opc1":
                 Productos();
-            case "opc2" ->
+                break;
+            case "opc2":
                 Empleados();
-            case "opc3" ->
+                break;
+            case "opc3":
                 Administracion();
-            case "opc4" ->
+                break;
+            case "opc4":
                 Salir();
+                break;
         }
     }
 
     public void Salir() {
+
         MENU.dispose();
+        MENU.setClick();
         login.setVisible(true);
     }
 
     public void Productos() {
         MENU.dispose();
+        MENU.setClick();
         productos.setVisible(true);
     }
 
@@ -83,17 +89,21 @@ public class Con_Menu extends Controlador {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch (e.getActionCommand()) {
-                case "b1" ->
+                case "b1":
                     Buscar();
-                case "b2" ->
+                    break;
+                case "b2":
                     Agregar();
-                case "b3" ->
+                    break;
+                case "b3":
                     Quitar();
-                case "b4" ->
+                    break;
+                case "b4":
                     Nuevo();
-                case "b5" ->
+                    break;
+                case "b5":
                     Cobrar();
-
+                    break;
             }
         }
 

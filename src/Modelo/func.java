@@ -37,7 +37,7 @@ public class func {
     }
 
     public static String filter_OUT(String str) {
-        return str.trim().toLowerCase().replace(" ", "_");
+        return str.trim().toLowerCase().replace("_", " ");
     }
 
     /**
@@ -72,7 +72,7 @@ public class func {
      */
     private static <T> boolean in(T[] array, T obj) {
         for (T i : array) {
-            if (obj == i) {
+            if (i.equals(obj)) {
                 return true;
             }
         }

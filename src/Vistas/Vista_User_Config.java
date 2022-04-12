@@ -1,7 +1,5 @@
 package Vistas;
 
-import com.jsql.conexion.Conexion;
-
 public class Vista_User_Config extends javax.swing.JFrame {
 
     private static final Vista_User_Config Nodo = new Vista_User_Config();
@@ -12,7 +10,7 @@ public class Vista_User_Config extends javax.swing.JFrame {
 
     private String user, password, url;
 
-    public Vista_User_Config() {
+    private Vista_User_Config() {
         initComponents();
     }
 
@@ -52,7 +50,7 @@ public class Vista_User_Config extends javax.swing.JFrame {
 
         jButton2.setText("Probar Conexion");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bade de Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12), new java.awt.Color(1, 1, 1))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bade de Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(1, 1, 1))); // NOI18N
         jPanel2.setOpaque(false);
 
         jtfURL.setBackground(new java.awt.Color(254, 254, 254));
@@ -94,7 +92,7 @@ public class Vista_User_Config extends javax.swing.JFrame {
         jLabel3.setText("contraseña");
         jLabel3.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        jButton3.setText("jButton3");
+        jButton3.setText("Guardar Datos");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);

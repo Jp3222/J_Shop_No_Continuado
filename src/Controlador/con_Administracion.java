@@ -26,14 +26,15 @@ public class con_Administracion extends Controlador {
 
     public con_Administracion(Vista_Administracion administracion) {
         this.administracion = administracion;
-        cn = Conexion.getNodo();
+        cn = Conexion.getInstancia();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "b4" ->
+            case "b4":
                 Salir();
+                break;
         }
     }
 
@@ -55,7 +56,7 @@ public class con_Administracion extends Controlador {
 
     public class con_Marcas extends Controlador {
 
-        private Marcas marcas;
+        private final Marcas marcas;
 
         public con_Marcas(Marcas marcas) {
             this.marcas = marcas;
@@ -65,43 +66,61 @@ public class con_Administracion extends Controlador {
         public void actionPerformed(ActionEvent e) {
             System.out.println(e.getActionCommand());
             switch (e.getActionCommand()) {
-                case "b1" ->
+                case "b1":
                     Nueva();
-                case "b2" ->
+                    break;
+                case "b2":
                     Eliminar();
-                case "b3" ->
+                    break;
+                case "b3":
                     Actualizar_Tabla();
+                    break;
             }
 
         }
 
         public void Nueva() {
             try {
-                String marca = JOptionPane.showInputDialog(null, "Ingrese el nombre de la marca", "Nueva Marca", JOptionPane.INFORMATION_MESSAGE);
-                marca = func.filer_IN(marca);
-                if (marca == null) {
+                String entrada = JOptionPane.showInputDialog(null, "Ingrese el nombre de la marca", "Nueva Marca", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(entrada);
+                if (entrada != null) {
+                    if (!entrada.trim().isEmpty()) {
+                        entrada = func.filer_IN(entrada);
+                        cn.insert("proveedores",
+                                cn.getColumnas("marca", "no_prod"),
+                                cn.getDatos(entrada, "0")
+                        );
+
+                        JOptionPane.showMessageDialog(null, "Producto registrado con exito");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Operacion Cancelada");
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "Operacion Cancelada");
-                    return;
                 }
-                cn.insert("proveedores",
-                        cn.getColumnas("marca", "no_prod"),
-                        cn.getDatos(marca, "0")
-                );
-                JOptionPane.showMessageDialog(null, "Producto registrado con exito");
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Error en la base de datos llame a tecnico");
             }
         }
 
+        public void addModelo() {
+            marcas.getTable().removeAll();
+        }
+
         public void Eliminar() {
-            System.out.println("xd");
             try {
                 String id = JOptionPane.showInputDialog(null, "Ingrese el id de la marca", "Eliminar Marca", JOptionPane.INFORMATION_MESSAGE);
-                if (id == null) {
+                if (id != null) {
+                    id = id.trim();
+                    if (!id.isEmpty()) {
+                        cn.delete("proveedores", "id = '" + id + "'");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Campo vacio");
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "Operacion Cancelada");
-                    return;
                 }
-                cn.DELETE("proveedores", "id = '" + id + "'");
             } catch (HeadlessException | SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -125,7 +144,7 @@ public class con_Administracion extends Controlador {
                 System.out.println(ex.getMessage());
             }
             marcas.setModelo(tb);
-            Puentes.getInicio().Actualizar_Lista();
+            //Puentes.getInicio().Actualizar_Lista();
         }
     }
 }

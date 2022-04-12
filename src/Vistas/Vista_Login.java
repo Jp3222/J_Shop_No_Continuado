@@ -1,11 +1,9 @@
 package Vistas;
 
 import Controlador.Con_Login;
-import Modelo.cons;
+import Modelo.Const;
 import com.jsql.conexion.Conexion;
 import java.awt.Color;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 /**
  *
@@ -35,11 +33,13 @@ public class Vista_Login extends javax.swing.JFrame {
         //Labels
         jtfUsuario.setForeground(Color.gray);
         String txt = "                  Estado: ";
-        txt += Conexion.getNodo().isConexion() ? "Conectado":"No Conectado";
+        txt += Conexion.getInstancia().isConexion() ? "Conectado":"No Conectado";
         jlbEstado.setText(txt);
         //JButons
         jbtInicio.setActionCommand("B1");
         jbtInicio.addActionListener(controlador);
+        jtfUsuario.addKeyListener(controlador);
+        jpfPass.addKeyListener(controlador);
         
     }
 
@@ -197,13 +197,13 @@ public class Vista_Login extends javax.swing.JFrame {
     }
 
     public void correcto() {
-        jtfUsuario.setBorder(cons.BORDER_BLACK);
-        jpfPass.setBorder(cons.BORDER_BLACK);
+        jtfUsuario.setBorder(Const.BORDER_BLACK);
+        jpfPass.setBorder(Const.BORDER_BLACK);
     }
 
     public void incorrecto() {
-        jtfUsuario.setBorder(cons.BORDER_RED);
-        jpfPass.setBorder(cons.BORDER_RED);
+        jtfUsuario.setBorder(Const.BORDER_RED);
+        jpfPass.setBorder(Const.BORDER_RED);
     }
 
     public void setClick() {

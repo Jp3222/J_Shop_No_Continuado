@@ -3,9 +3,6 @@ package Vistas;
 import Controlador.Con_Menu;
 import Controlador.Con_Menu.Con_Caja;
 import java.awt.Color;
-import javax.swing.DefaultCellEditor;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +17,7 @@ public class Vista_Menu extends Vista {
     private final Caja caja;
 
     public Vista_Menu(Vista_Login login) {
+        super("menu");
         this.controlador = new Con_Menu(this);
         this.productos = new Vista_Productos(this);
         this.administracion = new Vista_Administracion(this);
@@ -187,7 +185,8 @@ public class Vista_Menu extends Vista {
         jScrollPane1.setViewportView(jtbCarrito);
 
         jtfBuscar.setBackground(new java.awt.Color(254, 254, 254));
-        jtfBuscar.setForeground(new java.awt.Color(1, 1, 1));
+        jtfBuscar.setForeground(new java.awt.Color(207, 207, 207));
+        jtfBuscar.setText("Buscar");
         jtfBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtfBuscarMouseClicked(evt);
@@ -251,24 +250,16 @@ public class Vista_Menu extends Vista {
         jLabel2.setForeground(new java.awt.Color(1, 1, 1));
         jLabel2.setText("Producto");
 
+        jtfProducto.setEditable(false);
         jtfProducto.setBackground(new java.awt.Color(254, 254, 254));
         jtfProducto.setForeground(new java.awt.Color(1, 1, 1));
-        jtfProducto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtfProductoMouseClicked(evt);
-            }
-        });
 
         jLabel4.setForeground(new java.awt.Color(1, 1, 1));
         jLabel4.setText("Precio");
 
+        jtfPrecio.setEditable(false);
         jtfPrecio.setBackground(new java.awt.Color(254, 254, 254));
         jtfPrecio.setForeground(new java.awt.Color(1, 1, 1));
-        jtfPrecio.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtfPrecioMouseClicked(evt);
-            }
-        });
 
         jLabel5.setForeground(new java.awt.Color(1, 1, 1));
         jLabel5.setText("Piezas");
@@ -470,32 +461,48 @@ public class Vista_Menu extends Vista {
         }
     }//GEN-LAST:event_jtfBuscarMouseClicked
 
-    private void jtfProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfProductoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfProductoMouseClicked
+    public void setClick() {
+        jtfBuscar.setForeground(Color.gray);
+        jtfBuscar.setText("Buscar");
+        this.buscar_click = false;
+        
+    }
 
-    private void jtfPrecioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfPrecioMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfPrecioMouseClicked
+    @Override
+    public void initVariables() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
+    @Override
+    public void addListerners() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     public class Caja {
 
-        private final Con_Caja con;
-        private final DefaultTableModel modelo;
+        private Con_Caja controlador;
+        private DefaultTableModel TableModel;
 
         public Caja() {
-            modelo = new DefaultTableModel();
-            modelo.addColumn("clave");
-            modelo.addColumn("producto");
-            modelo.addColumn("piezas");
-            modelo.addColumn("precio");
-            jtbCarrito.setModel(modelo);
-            con = new Con_Caja(this);
-            jbtBuscar.addActionListener(con);
-            jbtAgregar.addActionListener(con);
-            jbtQuitar.addActionListener(con);
-            jbtNuevo.addActionListener(con);
-            jbtCobrar.addActionListener(con);
+            init();
+            addControlador();
+        }
+
+        private void init() {
+            TableModel = new DefaultTableModel();
+            TableModel.addColumn("clave");
+            TableModel.addColumn("producto");
+            TableModel.addColumn("piezas");
+            TableModel.addColumn("precio");
+            jtbCarrito.setModel(TableModel);
+        }
+
+        private void addControlador() {
+            controlador = new Con_Caja(this);
+            jbtBuscar.addActionListener(controlador);
+            jbtAgregar.addActionListener(controlador);
+            jbtQuitar.addActionListener(controlador);
+            jbtNuevo.addActionListener(controlador);
+            jbtCobrar.addActionListener(controlador);
         }
 
     }
@@ -519,6 +526,7 @@ public class Vista_Menu extends Vista {
 
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -554,4 +562,6 @@ public class Vista_Menu extends Vista {
     private javax.swing.JTextField jtfRecibido;
     private javax.swing.JTextField jtfTotal;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold>     
+
 }

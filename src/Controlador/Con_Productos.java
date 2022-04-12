@@ -24,8 +24,9 @@ public class Con_Productos extends Controlador {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "B1" ->
+            case "B1":
                 Salir();
+                break;
         }
     }
 
@@ -41,7 +42,6 @@ public class Con_Productos extends Controlador {
     public static class Con_Insercion extends Controlador {
 
         private final Insercciones menu;
-        private final Operaciones op = Operaciones.getNodo();
 
         public Con_Insercion(Insercciones menu) {
             this.menu = menu;
@@ -50,23 +50,19 @@ public class Con_Productos extends Controlador {
         @Override
         public void actionPerformed(ActionEvent e) {
             switch (e.getActionCommand()) {
-                case "b1" ->
+                case "b1":
                     Insertar();
+                    break;
             }
         }
 
         public void Insertar() {
             Producto p = menu.getProducto();
-            if (p == null || !p.isExist()) {
+            if (p == null) {
                 JOptionPane.showMessageDialog(null, "Producto null");
                 return;
             }
             
-            if (op.Inserccion(p)) {
-                JOptionPane.showMessageDialog(null, "Inserccion correcta");
-            } else {
-                JOptionPane.showMessageDialog(null, "Inserccion erronea");
-            }
         }
     }
 

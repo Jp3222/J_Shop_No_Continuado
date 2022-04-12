@@ -2,28 +2,38 @@ package Vistas;
 
 import Controlador.con_Administracion;
 import Controlador.con_Administracion.con_Marcas;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author jp
  */
-public class Vista_Administracion extends javax.swing.JFrame {
+public class Vista_Administracion extends Vista {
 
     private Marcas marcas;
     private con_Administracion controlador;
 
     public Vista_Administracion(Vista_Menu menu) {
-        controlador = new con_Administracion(this);
-        controlador.setMenu(menu);
-
-        initComponents();
-        init();
-        marcas = new Marcas();
+        super("administracion");
+        //
+        this.initComponents();
+        this.initVariables();
+        this.controlador.setMenu(menu);
+        this.addListerners();
     }
 
-    private void init() {
+    @Override
+    protected void initVariables() {
+        this.controlador = new con_Administracion(this);
+        this.marcas = new Marcas();
+    }
+
+    @Override
+    protected void addListerners() {
         jbtAtras.addActionListener(controlador);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -42,9 +52,6 @@ public class Vista_Administracion extends javax.swing.JFrame {
         jbtRemover = new javax.swing.JButton();
         jbtActualizar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jbtInsertar1 = new javax.swing.JButton();
-        jbtRemover1 = new javax.swing.JButton();
-        jbtActualizar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,13 +102,10 @@ public class Vista_Administracion extends javax.swing.JFrame {
 
         jtMarcas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "ID.", "Nombre.", "Productos."
             }
         ));
         jScrollPane1.setViewportView(jtMarcas);
@@ -112,8 +116,8 @@ public class Vista_Administracion extends javax.swing.JFrame {
         jbtRemover.setText("Eliminar Marca");
         jbtRemover.setActionCommand("b2");
 
-        jbtActualizar.setText("Actualizar Tabla");
-        jbtActualizar.setActionCommand("b3");
+        jbtActualizar.setText("Actualizar Marca");
+        jbtActualizar.setActionCommand("b2");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,8 +129,8 @@ public class Vista_Administracion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jbtInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbtRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -149,44 +153,15 @@ public class Vista_Administracion extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(132, 132, 132));
 
-        jbtInsertar1.setText("Nueva Marca");
-        jbtInsertar1.setActionCommand("b1");
-
-        jbtRemover1.setText("Eliminar Marca");
-        jbtRemover1.setActionCommand("b2");
-
-        jbtActualizar1.setText("Actualizar Tabla");
-        jbtActualizar1.setActionCommand("b3");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jbtInsertar1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbtRemover1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(128, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(252, 252, 252)
-                    .addComponent(jbtActualizar1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(252, Short.MAX_VALUE)))
+            .addGap(0, 856, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtInsertar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtRemover1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(399, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(312, 312, 312)
-                    .addComponent(jbtActualizar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(177, Short.MAX_VALUE)))
+            .addGap(0, 539, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Visitas", jPanel4);
@@ -235,31 +210,37 @@ public class Vista_Administracion extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbtActualizar;
-    private javax.swing.JButton jbtActualizar1;
     private javax.swing.JButton jbtAtras;
     private javax.swing.JButton jbtInsertar;
-    private javax.swing.JButton jbtInsertar1;
     private javax.swing.JButton jbtRemover;
-    private javax.swing.JButton jbtRemover1;
     private javax.swing.JLabel jlbIcono;
     private javax.swing.JTable jtMarcas;
     // End of variables declaration//GEN-END:variables
 
     public class Marcas {
 
-        private final con_Marcas marcas;
+        private final con_Marcas controlador_marcas;
 
         public Marcas() {
             //
-            marcas = controlador.getCon_marcas(this);
+            controlador_marcas = controlador.getCon_marcas(this);
             //
-            jbtInsertar.addActionListener(marcas);
-            jbtRemover.addActionListener(marcas);
-            jbtActualizar.addActionListener(marcas);
+            jbtInsertar.addActionListener(controlador_marcas);
+            jbtRemover.addActionListener(controlador_marcas);
+            jbtActualizar.addActionListener(controlador_marcas);
+
         }
 
         public void setModelo(DefaultTableModel tb) {
             jtMarcas.setModel(tb);
+        }
+
+        public TableModel getModelo() {
+            return jtMarcas.getModel();
+        }
+
+        public JTable getTable() {
+            return jtMarcas;
         }
     }
 

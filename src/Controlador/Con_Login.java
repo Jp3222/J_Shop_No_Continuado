@@ -1,6 +1,6 @@
 package Controlador;
 
-import Modelo.Operaciones;
+import Modelo.Operaciones.Empleados;
 import java.awt.event.ActionEvent;
 import Vistas.Vista_Login;
 import Vistas.Vista_Menu;
@@ -16,16 +16,13 @@ public class Con_Login extends Controlador {
 
     private final Vista_Login login;
     private Vista_Menu menu;
-    private final Operaciones op;
 
     public Con_Login(Vista_Login login) {
         this.login = login;
-        op = Operaciones.getNodo();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         Log();
     }
 
@@ -37,24 +34,18 @@ public class Con_Login extends Controlador {
     }
 
     public void Log() {
-        try {
-            ResultSet rs = op.Consulta("empleados", "*", "usuario = '" + login.getUsuario() + "'");
-            if (rs.next()) {
-                if (rs.getString("pass").equals(login.getPass())) {
-                    login.dispose();
-                    menu.setVisible(true);
-                    login.correcto();
-                    login.Clear();
-                    login.setClick();
-                } else {
-                    login.incorrecto();
-                }
-
+        if (true) {
+            if (true) {
+                login.dispose();
+                menu.setVisible(true);
+                login.correcto();
+                login.Clear();
+                login.setClick();
             } else {
                 login.incorrecto();
             }
-
-        } catch (SQLException e) {
+        } else {
+            login.incorrecto();
         }
 
     }
