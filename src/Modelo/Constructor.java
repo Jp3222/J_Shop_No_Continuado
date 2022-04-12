@@ -10,13 +10,13 @@ import java.util.logging.Logger;
  *
  * @author jp
  */
-public class Construir {
+public class Constructor {
 
-    private static Construir instancia;
+    private static Constructor instancia;
 
-    public static Construir getInstancia() {
+    public static Constructor getInstancia() {
         if (instancia == null) {
-            instancia = new Construir();
+            instancia = new Constructor();
         }
         return instancia;
     }
@@ -24,7 +24,7 @@ public class Construir {
     private File[] dirs;
     private File[] files;
 
-    private Construir() {
+    private Constructor() {
         switch (So.SO_NOMBRE.toLowerCase()) {
             case "linux":
                 linux();
@@ -46,8 +46,8 @@ public class Construir {
         dirs[3] = new File(So.USUARIO_DIR_INICIO + "/Documents/.jshop/docs");
         dirs[4] = new File(So.USUARIO_DIR_INICIO + "/Documents/.jshop/sql");
         files = new File[2];
-        files[0] = new File(So.USUARIO_DIR_INICIO + "/Documentos/.jshop/conf.jff");
-        files[1] = new File(So.USUARIO_DIR_INICIO + "/Documentos/.jshop/user.jff");
+        files[0] = new File(So.USUARIO_DIR_INICIO + "/Documents/.jshop/conf.jff");
+        files[1] = new File(So.USUARIO_DIR_INICIO + "/Documents/.jshop/user.jff");
     }
 
     private void linux() {
@@ -63,7 +63,6 @@ public class Construir {
     }
 
     private void mac() {
-
     }
 
     public void run() {
@@ -80,7 +79,7 @@ public class Construir {
                 try {
                     file.createNewFile();
                 } catch (IOException ex) {
-                    Logger.getLogger(Construir.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Constructor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -90,5 +89,13 @@ public class Construir {
     public File getFiles(int i) {
         return files[i];
     }
+    /**
+     * 
+     */
+    public File getDirs(int i) {
+        return dirs[i];
+    }
+    
+    
 
 }

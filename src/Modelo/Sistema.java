@@ -27,13 +27,14 @@ public class Sistema {
         return Nodo;
     }
     
-    private final Construir c;
+    private Cache cache;
+    private Constructor c;
     private Vista_Login login;
     private Vista_User_Config config;
     private Conexion conexion;
 
     public Sistema() {
-        c = Construir.getInstancia();
+        c = Constructor.getInstancia();
         if (!init()) {
             config = Vista_User_Config.getNodo();
             build();
@@ -47,18 +48,18 @@ public class Sistema {
             String[] info = user.Leer_Archivo(db).split(",");
             conexion = Conexion.getInstancia(info[0], info[1], info[2]);
             conexion.conectar();
-            System.out.println(conexion.isConexion());
+            //
+            cache = Cache.getInstancia();
+            System.out.println(cache.getProductos().toString());
             return true;
         }
         return false;
     }
 
-    private void build() {
+    private synchronized void build() {
         try {
-            
-                config.setVisible(true);
-                config.wait();
-            
+            config.setVisible(true);
+            config.wait();
 
             c.run();
             AText user = new AText();

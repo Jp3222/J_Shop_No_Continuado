@@ -11,81 +11,6 @@ import java.io.File;
  */
 public class Const {
 
-    public static final File[] SYSTEM_DIRS = {
-        new File(So.USUARIO_DIR_INICIO + "/Documentos"),
-        new File(So.USUARIO_DIR_INICIO + "/Documents"),
-        new File(So.USUARIO_DIR_INICIO + "/Escritorio"),
-        new File(So.USUARIO_DIR_INICIO + "/Desktop"),
-        new File(""),
-        new File("")
-    };
-
-    public static final File[] SYSTEM_FILES = {
-        new File(So.USUARIO_DIR_INICIO + "/Documentos/jshop/.cache"),
-        new File(""),
-        new File(""),
-        new File(""),
-        new File(""),
-        new File("")
-    };
-
-    public static final String SYSTEM = So.SO_NOMBRE;
-    public static final String SYSTEM_ARCH = So.SO_ARQ;
-    public static final String SYSTEM_VERSION = So.SO_VERSION;
-    public static final String SYSTEM_LANGUAJE = So.USUARIO_LENGUAGE;
-
-    //Archivos del programa
-    public static String getROOT_FOLDER() {
-        String root = So.USUARIO_DIR_INICIO;
-        String FolderName = SYSTEM_LANGUAJE.equals("es") ? "Documentos" : "Documents";
-        switch (SYSTEM.toLowerCase()) {
-            case "linux":
-                root += "/" + FolderName + "/.J-Shop";
-                break;
-
-            case "windows":
-                root += "/Documents/.J-Shop";
-                break;
-
-            default:
-                System.out.println("Ubicacion no disponible2");
-        }
-        return root;
-
-    }
-
-    public static final String ROOT_FOLDER = getROOT_FOLDER();
-
-    //Archivos del programa
-    public static final String ROOT_CACHE = ROOT_FOLDER + "/.cache";
-    public static final String ROOT_IMG = ROOT_CACHE + "/img";
-    public static final String ROOT_BACKUP = ROOT_CACHE + "/docs";
-    public static final String ROOT_BACKUP_SQL = ROOT_CACHE + "/sql";
-    public static final String FILE_ROOT_USER_DB = ROOT_CACHE + "/user.jshop";
-
-    public static final String DESKTOP_FOLDER = getDESKTOP_FOLDER();
-
-    public static String getDESKTOP_FOLDER() {
-        String root = So.USUARIO_DIR_INICIO;
-        String FolderName = SYSTEM_LANGUAJE.equals("es") ? "Documentos" : "Documents";
-        System.out.println(root);
-        switch (SYSTEM.toLowerCase()) {
-            case "linux":
-                root += "/" + FolderName + "/J-Shop";
-                break;
-            case "windows":
-                root += "/Desktop/J-Shop";
-                break;
-        }
-        return root;
-    }
-    //
-
-    //
-    public static final String HISTORIAL = DESKTOP_FOLDER + "/Historial de movimientos";
-    public static final String VENTAS = DESKTOP_FOLDER + "/Historial de ventas";
-    public static final String REPORTES = DESKTOP_FOLDER + "/Resportes generados";
-
     //--Diseño--//
     public static final LineBorder BORDER_BLACK = new LineBorder(Color.BLACK);
     public static final LineBorder BORDER_RED = new LineBorder(Color.RED);
@@ -115,8 +40,8 @@ public class Const {
 
     public static final String[] PROVEEDORES = {
         "id",
-        "marca",
-        "no_prod"
+        "nombre",
+        "productos"
     };
     //
     public static final String[] DIAS_SEMANA = {

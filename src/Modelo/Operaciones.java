@@ -115,7 +115,7 @@ public class Operaciones {
                     o.setClave(rs.getString("clave"));
                     o.setNombre(rs.getString("nombre"));
                     o.setProveedor(rs.getString("proveedor"));
-                    o.setContenido(rs.getString("contenido"));
+                    o.setContenido(rs.getString("cont"));
                     o.setUdm(rs.getString("udm"));
                     o.setPrecio(rs.getString("rs"));
                     o.setImg(rs.getString("img"));

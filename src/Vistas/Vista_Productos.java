@@ -10,7 +10,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import Controlador.Con_Productos.Con_Insercion;
-import Modelo.Const;
+import Modelo.Constructor;
 import Modelo.func;
 import com.org.JFiles.Vistas.ChooserFiles;
 import com.org.JFiles.Archivos.ABytes;
@@ -83,7 +83,7 @@ public class Vista_Productos extends Vista {
                 reinicio();
                 ResultSet select = cn.select("proveedores", "nombre");
                 while (select.next()) {
-                    jcbMarca.addItem(select.getString("marca"));
+                    jcbMarca.addItem(select.getString("nombre"));
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Vista_Productos.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,7 +100,7 @@ public class Vista_Productos extends Vista {
             String info[] = new String[8];
             int id = 0;
             try {
-                ResultSet select = Conexion.getInstancia().select("proveedores", "id", "marca = '" + jcbMarca.getItemAt(jcbMarca.getSelectedIndex()) + "'");
+                ResultSet select = Conexion.getInstancia().select("proveedores", "id", "nombre = '" + jcbMarca.getItemAt(jcbMarca.getSelectedIndex()) + "'");
                 if (select.next()) {
                     id = select.getInt("id");
                 } else {
@@ -124,12 +124,12 @@ public class Vista_Productos extends Vista {
             producto.setDatos(info);
             return producto;
         }
-
+        Constructor c = Constructor.getInstancia();
         public void action(ActionEvent e) {
             VP.setEnabled(false);
             Thread t = new Thread(() -> {
                 ABytes archivos = new ABytes();
-                File ruta = new File(Const.ROOT_IMG);
+                File ruta = c.getDirs(2);
                 boolean error;
                 do {
                     error = false;

@@ -1,5 +1,6 @@
 package Controlador;
 
+import Modelo.Const;
 import Modelo.func;
 import Vistas.Vista_Administracion;
 import Vistas.Vista_Administracion.Marcas;
@@ -87,7 +88,7 @@ public class con_Administracion extends Controlador {
                     if (!entrada.trim().isEmpty()) {
                         entrada = func.filer_IN(entrada);
                         cn.insert("proveedores",
-                                cn.getColumnas("marca", "no_prod"),
+                                cn.getColumnas(func.exp(Const.PROVEEDORES, 0)),
                                 cn.getDatos(entrada, "0")
                         );
 
