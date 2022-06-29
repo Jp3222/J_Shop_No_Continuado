@@ -1,6 +1,6 @@
 package j_shop;
 
-import Modelo.Sistema;
+import jshop.modulo.modelo.Sistema;
 
 /**
  *
@@ -9,6 +9,7 @@ import Modelo.Sistema;
 public class J_Shop {
 
     public static void main(String[] args) {
+
         Sistema s = Sistema.getNodo();
         boolean run = s.run();
         if (run) {
